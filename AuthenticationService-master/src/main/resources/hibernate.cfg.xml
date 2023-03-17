@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://aws-project.c0zvax1hi9xf.us-east-2.rds.amazonaws.com:3306/Authentication</property>
+        <property name="hibernate.connection.username">admin</property>
+        <property name="hibernate.connection.password">033747sabella</property>
+        <property name="hibernate.current_session_context_class">thread</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
+        <property name="show_sql">true</property>
+        <property name="hbm2ddl.auto">update</property>
+        <property name="format_sql">true</property>
+
+        <property name="hibernate.c3p0.min_size">5</property>
+        <property name="hibernate.c3p0.max_size">30</property>
+
+        <!--        The timeout property specifies the number of seconds an unused connection will be kept before being discarded.-->
+        <property name="hibernate.c3p0.timeout">1800</property>
+        <!--        how many connections it should try to acquire if the pool runs out of available connections.-->
+        <property name="hibernate.c3p0.acquire_increment">5</property>
+
+        <mapping class="com.xiang.authentication.domain.entity.User"/>
+        <mapping class="com.xiang.authentication.domain.entity.Role"/>
+        <mapping class="com.xiang.authentication.domain.entity.UserRole"/>
+        <mapping class="com.xiang.authentication.domain.entity.RegistrationToken"/>
+
+    </session-factory>
+</hibernate-configuration>

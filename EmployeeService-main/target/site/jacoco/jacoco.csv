@@ -1,0 +1,7 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+EmployeeService,com.example.EmployeeService.service,StorageService,263,7,24,0,67,2,17,2,5,2
+EmployeeService,com.example.EmployeeService.service,EmployeeService,580,384,36,18,137,68,34,20,15,12
+EmployeeService,com.example.EmployeeService.controller,HrController,117,6,8,0,28,3,15,1,11,1
+EmployeeService,com.example.EmployeeService.controller,StorageController,136,3,4,0,27,1,7,1,5,1
+EmployeeService,com.example.EmployeeService.controller,EmployeeController,299,328,33,17,49,74,31,14,7,13
+EmployeeService,com.example.EmployeeService,EmployeeServiceApplication,5,3,0,0,2,1,1,1,1,1

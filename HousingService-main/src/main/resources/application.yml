@@ -1,0 +1,39 @@
+database:
+  hibernate:
+    password: 033747sabella
+    showsql: 'true'
+    url: jdbc:mysql://aws-project.c0zvax1hi9xf.us-east-2.rds.amazonaws.com:3306/housing_service
+    driver: com.mysql.cj.jdbc.Driver
+    username: admin
+    dialect: org.hibernate.dialect.MySQLDialect
+security:
+  jwt:
+    token:
+      key: JavaTraining
+
+
+
+
+spring:
+
+  application:
+    name: housing-service
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+    servlet:
+      path: /housing-service
+
+
+server:
+  port: 8082
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+

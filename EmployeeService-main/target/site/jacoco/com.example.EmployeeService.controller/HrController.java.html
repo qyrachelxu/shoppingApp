@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HrController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">EmployeeService</a> &gt; <a href="index.source.html" class="el_package">com.example.EmployeeService.controller</a> &gt; <span class="el_source">HrController.java</span></div><h1>HrController.java</h1><pre class="source lang-java linenums">package com.example.EmployeeService.controller;
+
+import com.example.EmployeeService.Exception.EmailNotFoundException;
+import com.example.EmployeeService.domain.Employee;
+import com.example.EmployeeService.domain.PersonalDocument;
+import com.example.EmployeeService.dto.application.ApplicationDTO;
+import com.example.EmployeeService.dto.application.EmployeeInfoDTO;
+import com.example.EmployeeService.dto.profile.ProfileDTO;
+import com.example.EmployeeService.dto.profile.employment.EmployeeSummaryDTO;
+import com.example.EmployeeService.dto.profile.employment.EmployeeVisaDTO;
+import com.example.EmployeeService.service.EmployeeService;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.swagger.annotations.Api;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+
+@RestController
+@RequestMapping(&quot;/hr&quot;)
+@Api(value = &quot;HrController&quot;)
+public class HrController {
+
+    @Value(&quot;${security.jwt.token.key}&quot;)
+    private String key;
+    private final EmployeeService employeeService;
+
+    @Autowired
+<span class="fc" id="L34">    public HrController(EmployeeService employeeService){</span>
+<span class="fc" id="L35">        this.employeeService = employeeService;</span>
+<span class="fc" id="L36">    }</span>
+
+    @GetMapping(&quot;test&quot;)
+    public String getTest(){
+<span class="nc" id="L40">        return &quot;test hr employee service&quot;;</span>
+    }
+
+    private Integer getCurrentUserID(HttpServletRequest request) {
+<span class="nc" id="L44">        String prefixedToken = request.getHeader(&quot;Authorization&quot;);</span>
+<span class="nc" id="L45">        String token = prefixedToken.substring(7);</span>
+<span class="nc" id="L46">        Claims claims = null;</span>
+        try {
+<span class="nc" id="L48">            claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();</span>
+<span class="nc" id="L49">        } catch (Exception e) {</span>
+            // handle exception
+<span class="nc" id="L51">        }</span>
+<span class="nc" id="L52">        Integer userId = (Integer) claims.get(&quot;userId&quot;);</span>
+<span class="nc" id="L53">        return userId;</span>
+    }
+
+    // hr can view all applications for a list of users
+    @GetMapping(&quot;/applications&quot;)
+    @PreAuthorize(&quot;hasAuthority('hr')&quot;)
+    public List&lt;EmployeeInfoDTO&gt; getApplications(@RequestParam List&lt;Integer&gt; userIDs) {
+<span class="nc" id="L60">        return employeeService.findEmployeeInfoByUserIDs(userIDs);</span>
+    }
+
+    //hr can view certain pending applications
+    @GetMapping(&quot;/applications/pending/{userID}&quot;)
+    @PreAuthorize(&quot;hasAuthority('hr')&quot;)
+    public ApplicationDTO getCertainPendingApplication(@PathVariable int userID) {
+<span class="nc" id="L67">        return employeeService.findApplicationByUserID(userID);</span>
+    }
+
+    //hr can view profile by userid
+    @GetMapping(&quot;/{userId}/profile&quot;)
+    @PreAuthorize(&quot;hasAuthority('hr')&quot;)
+    public ProfileDTO getEmployeeProfile(@PathVariable int userId) {
+<span class="nc" id="L74">        return employeeService.findProfileByUserID(userId);</span>
+    }
+
+    //hr can change opt document status and give comment
+    @PutMapping(&quot;/{userID}/reviewdocument&quot;)
+    @PreAuthorize(&quot;hasAuthority('hr')&quot;)
+    public PersonalDocument reviewOPTDocument(@PathVariable int userID, @RequestParam String title, @RequestParam String status, @RequestParam String comment) {
+<span class="nc" id="L81">        return employeeService.reviewOPTDocument(userID, title, status, comment);</span>
+    }
+
+    //hr can view employees in page by basic information
+    @GetMapping(&quot;/employees/sort&quot;)
+    @PreAuthorize(&quot;hasAuthority('hr')&quot;)
+    public List&lt;EmployeeSummaryDTO&gt; getEmployeeSummaries(@RequestParam(defaultValue = &quot;0&quot;) int page) {
+<span class="nc" id="L88">        return employeeService.getAllEmployeeSummaries(page);</span>
+    }
+
+    //hr can view employees in page by visa
+    @GetMapping(&quot;/employees/visa&quot;)
+    @PreAuthorize(&quot;hasAuthority('hr')&quot;)
+    public List&lt;EmployeeVisaDTO&gt; getAllEmployeeVisaStatus(@RequestParam(defaultValue = &quot;0&quot;) int page) {
+<span class="nc" id="L95">        return employeeService.getEmployeeByVisaStatus(page);</span>
+    }
+
+    @GetMapping(&quot;/employee/name&quot;)
+    @PreAuthorize(&quot;hasAuthority('hr')&quot;)
+    public ResponseEntity&lt;Employee&gt; getEmployeeByName(@RequestParam String firstName, @RequestParam String lastName) {
+<span class="nc" id="L101">        Employee employee = employeeService.getEmployeeByUsername(firstName, lastName);</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">        if (employee != null) {</span>
+<span class="nc" id="L103">            return ResponseEntity.ok(employee);</span>
+        } else {
+<span class="nc" id="L105">            return ResponseEntity.notFound().build();</span>
+        }
+    }
+
+    @GetMapping(&quot;/employee/email&quot;)
+    @PreAuthorize(&quot;hasAuthority('hr')&quot;)
+    public ResponseEntity&lt;Employee&gt; getEmployeeByEmail(@RequestParam String email) {
+<span class="nc" id="L112">        Employee employee = employeeService.getEmployeeByEmail(email);</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">        if (employee != null) {</span>
+<span class="nc" id="L114">            return ResponseEntity.ok(employee);</span>
+        } else {
+<span class="nc" id="L116">            return ResponseEntity.notFound().build();</span>
+        }
+    }
+
+    //??? 从employee换到这里是否合适？ composite的路径需要调整
+    //composite: get email given userID
+    @GetMapping(&quot;/{userID}/getemail&quot;)
+    @PreAuthorize(&quot;hasAuthority('hr')&quot;)
+    public String getEmailByUserID(@PathVariable int userID) {
+<span class="nc" id="L125">        Employee employee = employeeService.findEmployeeByUserID(userID);</span>
+<span class="nc" id="L126">        String email = employee.getEmail();</span>
+<span class="nc bnc" id="L127" title="All 4 branches missed.">        if(email == null || email.isEmpty()) {</span>
+<span class="nc" id="L128">            throw new EmailNotFoundException(&quot;No email found for the employee with userID: &quot; + userID);</span>
+        }
+<span class="nc" id="L130">        return email;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

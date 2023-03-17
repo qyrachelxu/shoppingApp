@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EmployeeController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">EmployeeService</a> &gt; <a href="index.source.html" class="el_package">com.example.EmployeeService.controller</a> &gt; <span class="el_source">EmployeeController.java</span></div><h1>EmployeeController.java</h1><pre class="source lang-java linenums">package com.example.EmployeeService.controller;
+
+import com.example.EmployeeService.Exception.EmailNotFoundException;
+import com.example.EmployeeService.Exception.EmployeeNotFoundException;
+import com.example.EmployeeService.Exception.RoommateNotFoundException;
+import com.example.EmployeeService.Exception.ValidationNotPassException;
+import com.example.EmployeeService.domain.Car;
+import com.example.EmployeeService.domain.Employee;
+import com.example.EmployeeService.domain.PersonalDocument;
+import com.example.EmployeeService.domain.VisaStatus;
+import com.example.EmployeeService.dto.application.ApplicationDTO;
+import com.example.EmployeeService.dto.houseComposite.EmployeeInfo;
+import com.example.EmployeeService.dto.houseComposite.RoommateDTO;
+import com.example.EmployeeService.dto.profile.NameDTO;
+import com.example.EmployeeService.dto.profile.ProfileDTO;
+import com.example.EmployeeService.dto.profile.document.DocumentDTO;
+import com.example.EmployeeService.response.ApplicationResponse;
+import com.example.EmployeeService.response.GetOPTResponse;
+import com.example.EmployeeService.response.MessageResponse;
+import com.example.EmployeeService.security.AuthUserDetail;
+import com.example.EmployeeService.service.EmployeeService;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.models.auth.In;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.util.*;
+import java.util.stream.Collectors;
+
+@RestController
+@RequestMapping(&quot;/employee&quot;)
+@Api(value = &quot;EmployeeController&quot;)
+public class EmployeeController {
+
+    @Value(&quot;${security.jwt.token.key}&quot;)
+    private String key;
+
+    private final EmployeeService employeeService;
+
+    @Autowired
+<span class="fc" id="L55">    public EmployeeController(EmployeeService employeeService){</span>
+<span class="fc" id="L56">        this.employeeService = employeeService;</span>
+<span class="fc" id="L57">    }</span>
+
+    private Integer getCurrentUserID(HttpServletRequest request) {
+//        String prefixedToken = request.getHeader(&quot;Authorization&quot;);
+//        String token = prefixedToken.substring(7);
+//        Claims claims = null;
+//        try {
+//            claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
+//        } catch (Exception e) {
+//            // handle exception
+//        }
+//        Integer userId = (Integer) claims.get(&quot;userId&quot;);
+//        return userId;
+<span class="fc" id="L70">        return 1;</span>
+    }
+
+    private String getCurrentuserAuthority(HttpServletRequest request) {
+//        String prefixedToken = request.getHeader(&quot;Authorization&quot;);
+//        String token = prefixedToken.substring(7);
+//        Claims claims = null;
+//        try {
+//            claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
+//        } catch (Exception e) {
+//            // handle exception
+//        }
+//        List&lt;LinkedHashMap&lt;String, String&gt;&gt; permissions = (List&lt;LinkedHashMap&lt;String, String&gt;&gt;) claims.get(&quot;permissions&quot;);
+//
+//        // convert the permission list to a list of GrantedAuthority
+//        List&lt;GrantedAuthority&gt; authorities = permissions.stream()
+//                .map(p -&gt; new SimpleGrantedAuthority(p.get(&quot;authority&quot;)))
+//                .collect(Collectors.toList());
+//        String userAuthority = authorities.get(0).getAuthority();
+//        return userAuthority;
+<span class="fc" id="L90">        return &quot;employee&quot;;</span>
+    }
+
+    //add new application
+    @PostMapping(&quot;/apply&quot;)
+    @PreAuthorize(&quot;hasAuthority('employee')&quot;)
+    @ApiOperation(value = &quot;employeee start application&quot; , response = MessageResponse.class)
+    public MessageResponse fillApplicationForm(@Valid @RequestBody Employee employee, BindingResult bindingResult){
+        // perform validation check
+<span class="nc bnc" id="L99" title="All 2 branches missed.">        if (bindingResult.hasErrors()) {</span>
+<span class="nc" id="L100">            List&lt;FieldError&gt; errors = bindingResult.getFieldErrors();</span>
+<span class="nc" id="L101">            StringBuilder sb = new StringBuilder();</span>
+<span class="nc" id="L102">            errors.forEach(error -&gt; sb.append(&quot;ValidationError in &quot; + error.getObjectName() + &quot;: &quot; + error.getDefaultMessage()));</span>
+<span class="nc" id="L103">            return MessageResponse.builder().message(&quot;Missing required field&quot;).build();</span>
+        }
+
+<span class="nc bnc" id="L106" title="All 2 branches missed.">        if(employeeService.findEmployeeByUserIDOrEmail(employee.getUserID(), employee.getEmail()) != null) {</span>
+<span class="nc" id="L107">            return MessageResponse.builder().message(&quot;Duplicate ID or Email&quot;).build();</span>
+        }
+
+<span class="nc" id="L110">        employeeService.addNewEmployee(employee);</span>
+<span class="nc" id="L111">        return MessageResponse.builder().message(&quot;success&quot;).build();</span>
+    }
+
+    //edit application
+    @PostMapping(&quot;/edit&quot;)
+    @PreAuthorize(&quot;hasAuthority('employee')&quot;)
+    public Employee editApplication(HttpServletRequest request, @Valid @RequestBody Employee employee, BindingResult bindingResult){// perform validation check
+<span class="nc" id="L118">        Integer currentUserID = getCurrentUserID(request);</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">        if(currentUserID != employee.getUserID()) {</span>
+<span class="nc" id="L120">            throw new ValidationNotPassException(&quot;You don't have permission&quot;);</span>
+        }
+<span class="nc bnc" id="L122" title="All 2 branches missed.">        if (bindingResult.hasErrors()) {</span>
+<span class="nc" id="L123">            List&lt;FieldError&gt; errors = bindingResult.getFieldErrors();</span>
+<span class="nc" id="L124">            StringBuilder sb = new StringBuilder();</span>
+<span class="nc" id="L125">            errors.forEach(error -&gt; sb.append(&quot;ValidationError in &quot; + error.getObjectName() + &quot;: &quot; + error.getDefaultMessage()));</span>
+<span class="nc" id="L126">            throw new ValidationNotPassException(sb.toString());</span>
+        }
+
+<span class="nc" id="L129">        return employeeService.editEmployee(employee);</span>
+    }
+
+//    employee can view all documents in pending status
+    @GetMapping(&quot;/{userID}/personaldocuments&quot;)
+    @PreAuthorize(&quot;hasAuthority('employee')&quot;)
+    public List&lt;PersonalDocument&gt; getPersonalDocuments(HttpServletRequest request, @PathVariable int userID) {
+<span class="fc" id="L136">        Integer currentUserID = getCurrentUserID(request);</span>
+<span class="pc bpc" id="L137" title="1 of 2 branches missed.">        if(currentUserID.equals(userID)) {</span>
+<span class="fc" id="L138">            return employeeService.getPersonalDocuments(currentUserID);</span>
+        }else{
+<span class="nc" id="L140">            throw new ValidationNotPassException(&quot;You don't have permission&quot;);</span>
+        }
+    }
+
+    //employee can view its profile
+    @GetMapping(&quot;/{userID}/profile&quot;)
+    @PreAuthorize(&quot;hasAuthority('employee')&quot;)
+    public ProfileDTO getEmployeeProfile(HttpServletRequest request, @PathVariable int userID) {
+<span class="fc" id="L148">        Integer currentUserID = getCurrentUserID(request);</span>
+<span class="pc bpc" id="L149" title="1 of 2 branches missed.">        if(currentUserID.equals(userID)) {</span>
+<span class="fc" id="L150">            return employeeService.findProfileByUserID(userID);</span>
+        }else{
+<span class="nc" id="L152">            throw new ValidationNotPassException(&quot;You don't have permission&quot;);</span>
+        }
+    }
+
+    //see the application info for the employee(txt &amp; doc)
+    @GetMapping(&quot;/{userID}/application&quot;)
+    @PreAuthorize(&quot;hasAuthority('employee')&quot;)
+    public ApplicationResponse getEmployeeApplication(HttpServletRequest request, @PathVariable int userID) {
+<span class="fc" id="L160">        Integer currentUserID = getCurrentUserID(request);</span>
+<span class="pc bpc" id="L161" title="1 of 2 branches missed.">        if(currentUserID.equals(userID)) {</span>
+<span class="fc" id="L162">            return ApplicationResponse.builder()</span>
+<span class="fc" id="L163">                    .messageResponse(new MessageResponse(&quot;Please wait for HR to review your application&quot;))</span>
+<span class="fc" id="L164">                    .application(employeeService.findApplicationByUserID(userID))</span>
+<span class="fc" id="L165">                    .build();</span>
+        }else{
+<span class="nc" id="L167">            throw new ValidationNotPassException(&quot;You don't have permission&quot;);</span>
+        }
+    }
+
+    @GetMapping(&quot;/{userID}/applicationinfo&quot;)
+    @PreAuthorize(&quot;hasAuthority('employee')&quot;)
+    public ApplicationDTO getEmployeeApplicationComposite(HttpServletRequest request, @PathVariable int userID) {
+<span class="nc" id="L174">        Integer currentUserID = getCurrentUserID(request);</span>
+<span class="nc bnc" id="L175" title="All 2 branches missed.">        if(currentUserID.equals(userID)) {</span>
+<span class="nc" id="L176">            return employeeService.findApplicationByUserID(userID);</span>
+        }else{
+<span class="nc" id="L178">            throw new ValidationNotPassException(&quot;You don't have permission&quot;);</span>
+        }
+    }
+
+    //user can update profile
+    @PutMapping(&quot;/{userID}/updateProfile&quot;)
+    @PreAuthorize(&quot;hasAuthority('employee')&quot;)
+    public MessageResponse updateProfile(HttpServletRequest request,
+                                         @PathVariable int userID,
+                                         @Valid @RequestBody ProfileDTO profileDTO,
+                                         BindingResult bindingResult,
+                                         @RequestParam String button,
+                                         @RequestParam boolean decision) {
+<span class="fc" id="L191">        Integer currentUserID = getCurrentUserID(request);</span>
+<span class="pc bpc" id="L192" title="2 of 4 branches missed.">            if (!currentUserID.equals(userID) || bindingResult.hasErrors()) {</span>
+<span class="nc" id="L193">                List&lt;FieldError&gt; errors = bindingResult.getFieldErrors();</span>
+<span class="nc" id="L194">                StringBuilder sb = new StringBuilder();</span>
+<span class="nc" id="L195">                errors.forEach(error -&gt; sb.append(&quot;ValidationError in &quot; + error.getObjectName() + &quot;: &quot; + error.getDefaultMessage()));</span>
+<span class="nc" id="L196">                throw new ValidationNotPassException(sb.toString() + &quot;You don't have permission&quot;);</span>
+            }
+
+<span class="pc bpc" id="L199" title="1 of 2 branches missed.">            if(button.toLowerCase().equals(&quot;cancel&quot;)) {</span>
+<span class="nc bnc" id="L200" title="All 2 branches missed.">                if(decision) return new MessageResponse(&quot;All changes have been discarded.&quot;);</span>
+<span class="nc" id="L201">                else return new MessageResponse(&quot;Continue to edit...&quot;);</span>
+            }
+<span class="pc bpc" id="L203" title="1 of 2 branches missed.">            else if(button.toLowerCase().equals(&quot;save&quot;)) {</span>
+<span class="pc bpc" id="L204" title="1 of 2 branches missed.">                if(!decision) return new MessageResponse(&quot;Continue to edit...&quot;);</span>
+<span class="fc" id="L205">                employeeService.updateProfileName(userID, profileDTO);</span>
+<span class="fc" id="L206">                return new MessageResponse(&quot;successfully updated&quot;);</span>
+            }
+<span class="nc" id="L208">            return new MessageResponse(&quot;Invalid request&quot;);</span>
+    }
+
+    //employee/getOPT, get OPT documents if the employee is on OPT
+    @GetMapping(&quot;/{userID}/getOPT&quot;)
+    public GetOPTResponse getOPT(HttpServletRequest request, @PathVariable int userID) {
+<span class="fc" id="L214">        Employee employee = employeeService.findEmployeeByUserID(userID);</span>
+<span class="fc" id="L215">        Integer currentUserID = getCurrentUserID(request);</span>
+<span class="fc" id="L216">        String currentUserRole = getCurrentuserAuthority(request);</span>
+<span class="pc bpc" id="L217" title="3 of 4 branches missed.">        if(currentUserID.equals(userID) || currentUserRole.equals(&quot;hr&quot;)) {</span>
+        //check if on OPT
+<span class="pc bpc" id="L219" title="3 of 4 branches missed.">        Optional&lt;VisaStatus&gt; optional = employee.getVisaStatuses().stream().filter(v -&gt; v.getVisaType().equals(&quot;F-1 OPT&quot;) || v.getVisaType().equals(&quot;F-1 STEM OPT&quot;)).findAny();</span>
+<span class="pc bpc" id="L220" title="1 of 2 branches missed.">        if(!optional.isPresent()) return GetOPTResponse.builder()</span>
+<span class="nc" id="L221">                .messageResponse(new MessageResponse(&quot;Not on OPT&quot;))</span>
+<span class="nc" id="L222">                .build();</span>
+
+<span class="fc" id="L224">        List&lt;DocumentDTO&gt; documentDTOList = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L225">        List&lt;String&gt; optList = Arrays.asList(&quot;OPT Receipt&quot;, &quot;OPT EAD&quot;, &quot;I-983&quot;, &quot;I-20&quot;, &quot;OPT STEM Receipt&quot;, &quot;OPT STEM EAD&quot;);</span>
+<span class="pc bpc" id="L226" title="1 of 2 branches missed.">        for(String str: optList) {</span>
+<span class="fc" id="L227">            Optional&lt;PersonalDocument&gt; tmpOptional = employee.getPersonalDocuments().stream().filter(d -&gt; d.getTitle().equals(str)).findAny();</span>
+<span class="pc bpc" id="L228" title="1 of 2 branches missed.">            if(tmpOptional.isPresent()) {</span>
+<span class="fc" id="L229">                PersonalDocument personalDocument = tmpOptional.get();</span>
+<span class="fc bfc" id="L230" title="All 2 branches covered.">                if(personalDocument.getDocumentStatus().equals(&quot;Pending&quot;))</span>
+<span class="fc" id="L231">                    return GetOPTResponse.builder()</span>
+<span class="fc" id="L232">                            .approvedDocuments(documentDTOList)</span>
+<span class="fc" id="L233">                            .messageResponse(new MessageResponse(&quot;Waiting for HR to approve your &quot; + str))</span>
+<span class="fc" id="L234">                            .build();</span>
+<span class="pc bpc" id="L235" title="1 of 2 branches missed.">                else if(personalDocument.getDocumentStatus().equals(&quot;Approved&quot;)) {</span>
+<span class="fc" id="L236">                    documentDTOList.add(DocumentDTO.builder()</span>
+<span class="fc" id="L237">                            .title(personalDocument.getTitle())</span>
+<span class="fc" id="L238">                            .path(personalDocument.getPath())</span>
+<span class="fc" id="L239">                            .personalDocumentId(personalDocument.getPersonalDocumentId())</span>
+<span class="fc" id="L240">                            .build());</span>
+                }
+<span class="nc bnc" id="L242" title="All 2 branches missed.">                else if(personalDocument.getDocumentStatus().equals(&quot;Rejected&quot;))</span>
+<span class="nc" id="L243">                    return GetOPTResponse.builder()</span>
+<span class="nc" id="L244">                            .approvedDocuments(documentDTOList)</span>
+<span class="nc" id="L245">                            .messageResponse(new MessageResponse(str + &quot;is rejected. Feedback: &quot; + personalDocument.getComment()))</span>
+<span class="nc" id="L246">                            .build();</span>
+<span class="fc" id="L247">            }</span>
+            else {
+<span class="nc" id="L249">                return GetOPTResponse.builder()</span>
+<span class="nc" id="L250">                        .approvedDocuments(documentDTOList)</span>
+<span class="nc" id="L251">                        .messageResponse(new MessageResponse(&quot;Please upload a copy of your &quot; + str))</span>
+<span class="nc" id="L252">                        .build();</span>
+            }
+<span class="fc" id="L254">        }</span>
+
+<span class="nc" id="L256">        return GetOPTResponse.builder()</span>
+<span class="nc" id="L257">                .approvedDocuments(documentDTOList)</span>
+<span class="nc" id="L258">                .messageResponse(new MessageResponse(&quot;All OPT documents have been approved&quot;))</span>
+<span class="nc" id="L259">                .build();</span>
+        }else{
+<span class="nc" id="L261">            throw new ValidationNotPassException(&quot;You don't have permission&quot;);</span>
+        }
+    }
+
+    //composite: get all roommates
+    @GetMapping(&quot;/{employeeId}/roommates&quot;)
+    public List&lt;RoommateDTO&gt; getRoommates(@PathVariable String employeeId) {
+<span class="nc" id="L268">        return employeeService.findRoommatesByEmployeeId(employeeId);</span>
+    }
+
+    //composite: get residents by houseID
+    @GetMapping(&quot;/house/{houseID}/residents&quot;)
+    public List&lt;EmployeeInfo&gt; getNumOfResidents(@PathVariable int houseID) {
+<span class="fc" id="L274">        List&lt;Employee&gt; employees = employeeService.findResidentsByHouseID(houseID);</span>
+<span class="fc" id="L275">        List&lt;EmployeeInfo&gt; employeeInfos = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L276">        employees.forEach(e -&gt; {</span>
+<span class="fc" id="L277">            employeeInfos.add(EmployeeInfo.builder()</span>
+<span class="fc" id="L278">                            .legalFullName(e.getFirstName() + &quot; &quot; + e.getLastName())</span>
+<span class="fc" id="L279">                            .carList(e.getCar())</span>
+<span class="fc" id="L280">                            .phoneNumber(e.getCellPhone())</span>
+<span class="fc" id="L281">                            .email(e.getEmail())</span>
+<span class="fc" id="L282">                            .houseId(e.getHouseID())</span>
+<span class="fc" id="L283">                    .build());</span>
+<span class="fc" id="L284">        });</span>
+<span class="fc" id="L285">        return employeeInfos;</span>
+    }
+
+    //composite: get employee by employee id
+    @GetMapping(&quot;/{employeeId}&quot;)
+    public EmployeeInfo getEmployeeByEmployeeId(@PathVariable String employeeId) {
+<span class="fc" id="L291">        Employee employee = employeeService.findEmployeeByEmployeeId(employeeId);</span>
+<span class="pc bpc" id="L292" title="1 of 2 branches missed.">         if(employee == null) throw new EmployeeNotFoundException(&quot;Employee Not Found. Please provide correct id&quot;);</span>
+
+<span class="fc" id="L294">        String legalName = employee.getFirstName() + &quot; &quot;+</span>
+<span class="fc" id="L295">                employee.getLastName();</span>
+<span class="fc" id="L296">        Integer houseId = employee.getHouseID();</span>
+<span class="fc" id="L297">        return EmployeeInfo.builder()</span>
+<span class="fc" id="L298">                .userId(employee.getUserID())</span>
+<span class="fc" id="L299">                .houseId(houseId)</span>
+<span class="fc" id="L300">                .legalFullName(legalName)</span>
+<span class="fc" id="L301">                .phoneNumber(employee.getCellPhone())</span>
+<span class="fc" id="L302">                .email(employee.getEmail())</span>
+<span class="fc" id="L303">                .carList(employee.getCar())</span>
+<span class="fc" id="L304">                .build();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

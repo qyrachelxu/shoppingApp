@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="dbdf7b75-507b-4da4-bca4-d2a4ca71fbe1" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/example/EmployeeService/controller/HrControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/EmployeeService/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/EmployeeService/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/EmployeeService/controller/EmployeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/EmployeeService/controller/EmployeeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/EmployeeService/security/JwtFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/EmployeeService/security/JwtFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/EmployeeService/security/JwtProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/EmployeeService/security/JwtProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/EmployeeService/controller/EmployeeControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/EmployeeService/controller/EmployeeControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/AOP/MyExceptionHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/AOP/MyExceptionHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/EmployeeServiceApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/EmployeeServiceApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/Exception/DocumentNotFoundException.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/Exception/DocumentNotFoundException.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/Exception/EmailNotFoundException.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/Exception/EmailNotFoundException.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/Exception/EmployeeNotFoundException.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/Exception/EmployeeNotFoundException.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/Exception/HouseIDNotFoundException.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/Exception/HouseIDNotFoundException.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/Exception/InvalidCredentialsException.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/Exception/InvalidCredentialsException.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/Exception/RoommateNotFoundException.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/Exception/RoommateNotFoundException.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/Exception/ValidationNotPassException.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/Exception/ValidationNotPassException.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/config/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/config/SecurityConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/config/StorageConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/config/StorageConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/controller/EmployeeController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/controller/EmployeeController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/controller/HrController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/controller/HrController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/controller/StorageController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/controller/StorageController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/domain/Address.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/domain/Address.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/domain/Car.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/domain/Car.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/domain/Contact.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/domain/Contact.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/domain/Employee.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/domain/Employee.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/domain/PersonalDocument.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/domain/PersonalDocument.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/domain/Reference.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/domain/Reference.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/domain/VisaStatus.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/domain/VisaStatus.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/AddressListDTO$AddressListDTOBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/AddressListDTO$AddressListDTOBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/AddressListDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/AddressListDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/DocumentListDTO$DocumentListDTOBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/DocumentListDTO$DocumentListDTOBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/DocumentListDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/DocumentListDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/EmergencyContactListDTO$EmergencyContactListDTOBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/EmergencyContactListDTO$EmergencyContactListDTOBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/EmergencyContactListDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/EmergencyContactListDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/VisaListDTO$VisaListDTOBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/VisaListDTO$VisaListDTOBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/VisaListDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/VisaListDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/application/ApplicationDTO$ApplicationDTOBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/application/ApplicationDTO$ApplicationDTOBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/application/ApplicationDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/application/ApplicationDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/application/ApplicationFormDTO$ApplicationFormDTOBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/application/ApplicationFormDTO$ApplicationFormDTOBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/application/ApplicationFormDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/application/ApplicationFormDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/application/EmployeeInfoDTO$EmployeeInfoDTOBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/application/EmployeeInfoDTO$EmployeeInfoDTOBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/application/EmployeeInfoDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/application/EmployeeInfoDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/houseComposite/EmployeeInfo$EmployeeInfoBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/houseComposite/EmployeeInfo$EmployeeInfoBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/houseComposite/EmployeeInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/houseComposite/EmployeeInfo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/houseComposite/RoommateDTO$RoommateDTOBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/houseComposite/RoommateDTO$RoommateDTOBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/houseComposite/RoommateDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/houseComposite/RoommateDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/profile/NameDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/profile/NameDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/profile/PersonalContactDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/profile/PersonalContactDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/profile/ProfileDTO$ProfileDTOBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/profile/ProfileDTO$ProfileDTOBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/profile/ProfileDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/profile/ProfileDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/profile/address/AddressDTO$AddressDTOBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/profile/address/AddressDTO$AddressDTOBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/profile/address/AddressDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/profile/address/AddressDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/profile/document/DocumentDTO$DocumentDTOBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/profile/document/DocumentDTO$DocumentDTOBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/profile/document/DocumentDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/profile/document/DocumentDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/profile/emergencyContact/EmergencyContactDTO$EmergencyContactDTOBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/profile/emergencyContact/EmergencyContactDTO$EmergencyContactDTOBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/profile/emergencyContact/EmergencyContactDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/profile/emergencyContact/EmergencyContactDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/profile/employment/EmployeeSummaryDTO$EmployeeSummaryDTOBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/profile/employment/EmployeeSummaryDTO$EmployeeSummaryDTOBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/profile/employment/EmployeeSummaryDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/profile/employment/EmployeeSummaryDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/profile/employment/EmployeeVisaDTO$EmployeeVisaDTOBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/profile/employment/EmployeeVisaDTO$EmployeeVisaDTOBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/profile/employment/EmployeeVisaDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/profile/employment/EmployeeVisaDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/profile/employment/VisaDTO$VisaDTOBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/profile/employment/VisaDTO$VisaDTOBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/profile/employment/VisaDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/dto/profile/employment/VisaDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/repository/EmployeeRepo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/repository/EmployeeRepo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/response/ApplicationResponse$ApplicationResponseBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/response/ApplicationResponse$ApplicationResponseBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/response/ApplicationResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/response/ApplicationResponse.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/response/GetOPTResponse$GetOPTResponseBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/response/GetOPTResponse$GetOPTResponseBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/response/GetOPTResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/response/GetOPTResponse.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/response/MessageResponse$MessageResponseBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/response/MessageResponse$MessageResponseBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/response/MessageResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/response/MessageResponse.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/security/AuthUserDetail$AuthUserDetailBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/security/AuthUserDetail$AuthUserDetailBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/security/AuthUserDetail.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/security/AuthUserDetail.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/security/JwtFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/security/JwtFilter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/security/JwtProvider.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/security/JwtProvider.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/service/EmployeeService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/service/EmployeeService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/service/StorageService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/EmployeeService/service/StorageService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.example.EmployeeService.controller.EmployeeControllerTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.example.EmployeeService.controller.EmployeeControllerTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.example.EmployeeService.controller.EmployeeControllerTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.example.EmployeeService.controller.EmployeeControllerTest.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/example/EmployeeService/controller/EmployeeControllerTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/com/example/EmployeeService/controller/EmployeeControllerTest.class" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="JpbToolWindowState">
+    <option name="isToolWindowVisible" value="false" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2McrM67TdQvg0LWtpoJbvrk31JP" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "dart.analysis.tool.window.visible": "false"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java/com/example/EmployeeService" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.example.EmployeeService.dto.houseComposite" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="mvn clean install" />
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.EmployeeServiceApplication">
+    <configuration name="EmployeeControllerTest.testFillApplicationForm_Success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="EmployeeService" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.EmployeeService.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.EmployeeService.controller" />
+      <option name="MAIN_CLASS_NAME" value="com.example.EmployeeService.controller.EmployeeControllerTest" />
+      <option name="METHOD_NAME" value="testFillApplicationForm_Success" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EmployeeControllerTest.testGetEmployeeApplicationComposite" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="EmployeeService" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.EmployeeService.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.EmployeeService.controller" />
+      <option name="MAIN_CLASS_NAME" value="com.example.EmployeeService.controller.EmployeeControllerTest" />
+      <option name="METHOD_NAME" value="testGetEmployeeApplicationComposite" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EmployeeControllerTest.testGetEmployeeProfile" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="EmployeeService" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.EmployeeService.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.EmployeeService.controller" />
+      <option name="MAIN_CLASS_NAME" value="com.example.EmployeeService.controller.EmployeeControllerTest" />
+      <option name="METHOD_NAME" value="testGetEmployeeProfile" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EmployeeControllerTest.testGetNumOfResidents" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="EmployeeService" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.EmployeeService.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.EmployeeService.controller" />
+      <option name="MAIN_CLASS_NAME" value="com.example.EmployeeService.controller.EmployeeControllerTest" />
+      <option name="METHOD_NAME" value="testGetNumOfResidents" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EmployeeControllerTest.testGetPersonalDocuments" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="EmployeeService" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.EmployeeService.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.EmployeeService.controller" />
+      <option name="MAIN_CLASS_NAME" value="com.example.EmployeeService.controller.EmployeeControllerTest" />
+      <option name="METHOD_NAME" value="testGetPersonalDocuments" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EmployeeServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="EmployeeService" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.EmployeeService.EmployeeServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.EmployeeControllerTest.testGetNumOfResidents" />
+        <item itemvalue="JUnit.EmployeeControllerTest.testGetEmployeeApplicationComposite" />
+        <item itemvalue="JUnit.EmployeeControllerTest.testGetEmployeeProfile" />
+        <item itemvalue="JUnit.EmployeeControllerTest.testGetPersonalDocuments" />
+        <item itemvalue="JUnit.EmployeeControllerTest.testFillApplicationForm_Success" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="dbdf7b75-507b-4da4-bca4-d2a4ca71fbe1" name="Changes" comment="" />
+      <created>1678077662311</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1678077662311</updated>
+      <workItem from="1678142848652" duration="5548000" />
+      <workItem from="1678296394125" duration="45400000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/EmployeeService$EmployeeControllerTest.ic" NAME="EmployeeControllerTest Coverage Results" MODIFIED="1678411637527" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.example.EmployeeService.controller.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/EmployeeService$EmployeeServiceTest.ic" NAME="EmployeeServiceTest Coverage Results" MODIFIED="1678386454142" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.example.EmployeeService.service.*</FILTER>
+    </SUITE>
+  </component>
+</project>

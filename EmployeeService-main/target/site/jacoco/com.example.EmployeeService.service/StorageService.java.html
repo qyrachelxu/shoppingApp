@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StorageService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">EmployeeService</a> &gt; <a href="index.source.html" class="el_package">com.example.EmployeeService.service</a> &gt; <span class="el_source">StorageService.java</span></div><h1>StorageService.java</h1><pre class="source lang-java linenums">package com.example.EmployeeService.service;
+
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.services.s3.model.S3ObjectInputStream;
+import com.amazonaws.util.IOUtils;
+import com.example.EmployeeService.Exception.DocumentNotFoundException;
+import com.example.EmployeeService.Exception.EmployeeNotFoundException;
+import com.example.EmployeeService.domain.Employee;
+import com.example.EmployeeService.domain.PersonalDocument;
+import com.example.EmployeeService.repository.EmployeeRepo;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.List;
+
+@Service
+<span class="fc" id="L26">@Slf4j</span>
+<span class="fc" id="L27">public class StorageService {</span>
+    @Value(&quot;${application.bucket.name}&quot;)
+    private String bucketName;
+
+    @Autowired
+    private AmazonS3 s3Client;
+
+    @Autowired
+    private EmployeeRepo employeeRepo;
+
+    public PersonalDocument addPersonalDocument(Integer userID, MultipartFile file, String type, String title, String comment, String documentStatus) throws IOException {
+<span class="nc" id="L38">        Employee employee = employeeRepo.findByUserID(userID);</span>
+<span class="nc bnc" id="L39" title="All 2 branches missed.">        if (employee == null) {</span>
+<span class="nc" id="L40">            throw new EmployeeNotFoundException(userID);</span>
+        }
+
+<span class="nc bnc" id="L43" title="All 2 branches missed.">        for (PersonalDocument personalDocument : employee.getPersonalDocuments()) {</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">            if (personalDocument.getTitle().equals(title)) {</span>
+<span class="nc" id="L45">                throw new DocumentNotFoundException(&quot;Upload fail. Document exists.&quot;);</span>
+            }
+<span class="nc" id="L47">        }</span>
+
+<span class="nc" id="L49">        String fileName = uploadFile(file);</span>
+
+<span class="nc" id="L51">        PersonalDocument personalDocument = new PersonalDocument();</span>
+<span class="nc" id="L52">        personalDocument.setType(type);</span>
+<span class="nc" id="L53">        personalDocument.setTitle(title);</span>
+<span class="nc" id="L54">        personalDocument.setComment(comment);</span>
+<span class="nc" id="L55">        personalDocument.setCreateDate(String.valueOf(LocalDate.now()));</span>
+<span class="nc" id="L56">        personalDocument.setPath(fileName);</span>
+<span class="nc" id="L57">        personalDocument.setDocumentStatus(&quot;Pending&quot;);</span>
+
+<span class="nc" id="L59">        List&lt;PersonalDocument&gt; personalDocuments = employee.getPersonalDocuments();</span>
+<span class="nc" id="L60">        personalDocuments.add(personalDocument);</span>
+<span class="nc" id="L61">        employee.setPersonalDocuments(personalDocuments);</span>
+
+<span class="nc" id="L63">        employeeRepo.save(employee);</span>
+
+<span class="nc" id="L65">        return personalDocument;</span>
+    }
+
+    public PersonalDocument updatePersonalDocuments(Integer userID, String oldTitle, String newType, String newTitle, MultipartFile file, String comment, String documentStatus) throws IOException {
+<span class="nc" id="L69">        Employee employee = employeeRepo.findByUserID(userID);</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">        if (employee == null) {</span>
+<span class="nc" id="L71">            throw new EmployeeNotFoundException(userID);</span>
+        }
+
+<span class="nc" id="L74">        PersonalDocument personalDocumentToDelete = null;</span>
+<span class="nc" id="L75">        PersonalDocument personalDocumentToUpdate = null;</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">        for (PersonalDocument personalDocument : employee.getPersonalDocuments()) {</span>
+<span class="nc bnc" id="L77" title="All 4 branches missed.">            if(personalDocument.getTitle().equals(oldTitle) &amp;&amp; personalDocument.getDocumentStatus().equals(&quot;Approved&quot;)) {</span>
+<span class="nc" id="L78">                throw new DocumentNotFoundException(&quot;Update fail. Document has been approved.&quot;);</span>
+            }
+<span class="nc bnc" id="L80" title="All 2 branches missed.">            if (personalDocument.getTitle().equals(oldTitle)) {</span>
+<span class="nc" id="L81">                personalDocumentToDelete = personalDocument;</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">            } else if (personalDocument.getTitle().equals(newTitle)) {</span>
+<span class="nc" id="L83">                personalDocumentToUpdate = personalDocument;</span>
+            }
+<span class="nc" id="L85">        }</span>
+
+<span class="nc bnc" id="L87" title="All 2 branches missed.">        if (personalDocumentToDelete != null) {</span>
+<span class="nc" id="L88">            employee.getPersonalDocuments().remove(personalDocumentToDelete);</span>
+        }
+
+<span class="nc bnc" id="L91" title="All 2 branches missed.">        if (file != null) {</span>
+<span class="nc" id="L92">            String fileName = uploadFile(file);</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">            if (personalDocumentToUpdate == null) {</span>
+<span class="nc" id="L94">                personalDocumentToUpdate = new PersonalDocument();</span>
+<span class="nc" id="L95">                personalDocumentToUpdate.setTitle(newTitle);</span>
+<span class="nc" id="L96">                personalDocumentToUpdate.setCreateDate(String.valueOf(LocalDate.now()));</span>
+<span class="nc" id="L97">                employee.getPersonalDocuments().add(personalDocumentToUpdate);</span>
+            }
+<span class="nc" id="L99">            personalDocumentToUpdate.setType(newType);</span>
+<span class="nc" id="L100">            personalDocumentToUpdate.setComment(comment);</span>
+<span class="nc" id="L101">            personalDocumentToUpdate.setPath(fileName);</span>
+<span class="nc" id="L102">            personalDocumentToUpdate.setDocumentStatus(documentStatus);</span>
+        }
+
+<span class="nc" id="L105">        employeeRepo.save(employee);</span>
+
+<span class="nc" id="L107">        return personalDocumentToUpdate;</span>
+    }
+
+    public String uploadFile(MultipartFile file) {
+<span class="nc" id="L111">        File fileObj = convertMultiPartFileToFile(file);</span>
+<span class="nc" id="L112">        String fileName = file.getOriginalFilename();</span>
+<span class="nc" id="L113">        s3Client.putObject(new PutObjectRequest(bucketName, fileName, fileObj));</span>
+<span class="nc" id="L114">        fileObj.delete();</span>
+<span class="nc" id="L115">        return &quot;Your file&quot; + fileName + &quot;has successfully uploaded! Please wait for HR to approve.&quot;;</span>
+    }
+
+    private File convertMultiPartFileToFile(MultipartFile file) {
+<span class="nc" id="L119">        File convertedFile = new File(file.getOriginalFilename());</span>
+<span class="nc" id="L120">        try (FileOutputStream fos = new FileOutputStream(convertedFile)) {</span>
+<span class="nc" id="L121">            fos.write(file.getBytes());</span>
+<span class="nc" id="L122">        } catch (IOException e) {</span>
+<span class="nc" id="L123">            log.error(&quot;Error converting multipartFile to file&quot;, e);</span>
+<span class="nc" id="L124">        }</span>
+<span class="nc" id="L125">        return convertedFile;</span>
+    }
+
+    public byte[] downloadFile(String fileName) {
+<span class="nc" id="L129">        S3Object s3Object = s3Client.getObject(bucketName, fileName);</span>
+<span class="nc" id="L130">        S3ObjectInputStream inputStream = s3Object.getObjectContent();</span>
+        try {
+<span class="nc" id="L132">            byte[] content = IOUtils.toByteArray(inputStream);</span>
+<span class="nc" id="L133">            return content;</span>
+<span class="nc" id="L134">        } catch (IOException e) {</span>
+<span class="nc" id="L135">            e.printStackTrace();</span>
+        }
+<span class="nc" id="L137">        return null;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

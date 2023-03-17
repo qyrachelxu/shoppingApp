@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EmployeeService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">EmployeeService</a> &gt; <a href="index.source.html" class="el_package">com.example.EmployeeService.service</a> &gt; <span class="el_source">EmployeeService.java</span></div><h1>EmployeeService.java</h1><pre class="source lang-java linenums">package com.example.EmployeeService.service;
+
+import com.example.EmployeeService.Exception.DocumentNotFoundException;
+import com.example.EmployeeService.Exception.EmployeeNotFoundException;
+import com.example.EmployeeService.Exception.RoommateNotFoundException;
+import com.example.EmployeeService.domain.Employee;
+import com.example.EmployeeService.domain.PersonalDocument;
+import com.example.EmployeeService.domain.VisaStatus;
+import com.example.EmployeeService.dto.application.ApplicationDTO;
+import com.example.EmployeeService.dto.application.EmployeeInfoDTO;
+import com.example.EmployeeService.dto.houseComposite.RoommateDTO;
+import com.example.EmployeeService.dto.profile.NameDTO;
+import com.example.EmployeeService.dto.profile.PersonalContactDTO;
+import com.example.EmployeeService.dto.profile.emergencyContact.EmergencyContactDTO;
+import com.example.EmployeeService.dto.profile.address.AddressDTO;
+import com.example.EmployeeService.dto.profile.ProfileDTO;
+import com.example.EmployeeService.dto.profile.document.DocumentDTO;
+import com.example.EmployeeService.dto.profile.employment.EmployeeSummaryDTO;
+import com.example.EmployeeService.dto.profile.employment.EmployeeVisaDTO;
+import com.example.EmployeeService.dto.profile.employment.VisaDTO;
+import com.example.EmployeeService.repository.EmployeeRepo;
+import org.bson.types.ObjectId;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class EmployeeService {
+
+    private final EmployeeRepo repository;
+
+<span class="fc" id="L45">    public EmployeeService(EmployeeRepo repository) {</span>
+<span class="fc" id="L46">        this.repository = repository;</span>
+<span class="fc" id="L47">    }</span>
+
+    public void addNewEmployee(Employee employee) {
+<span class="fc" id="L50">        repository.save(employee);</span>
+<span class="fc" id="L51">    }</span>
+
+    public List&lt;PersonalDocument&gt; getPersonalDocumentsForEmployee(String employeeId) {
+<span class="fc" id="L54">        return repository.findPersonalDocumentsByEmployeeId(employeeId);</span>
+    }
+
+    public ProfileDTO findProfileByUserID(int userID) {
+<span class="nc bnc" id="L58" title="All 2 branches missed.">        if(repository.findEmployeeByUserID(userID) == null) throw new EmployeeNotFoundException(&quot;Employee Not Found. Please provide correct ID&quot;);</span>
+
+<span class="nc" id="L60">        List&lt;AddressDTO&gt; addressDTOList = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L61">        repository.findAddressProfileByUserID(userID).getAddresses().forEach(a -&gt; {</span>
+<span class="nc" id="L62">            addressDTOList.add(AddressDTO.builder()</span>
+<span class="nc" id="L63">                            .addressLine1(a.getAddressLine1())</span>
+<span class="nc" id="L64">                            .addressLine2(a.getAddressLine2())</span>
+<span class="nc" id="L65">                            .city(a.getCity())</span>
+<span class="nc" id="L66">                            .state(a.getState())</span>
+<span class="nc" id="L67">                            .zipcode(a.getZipcode())</span>
+<span class="nc" id="L68">                            .build());</span>
+<span class="nc" id="L69">        });</span>
+
+<span class="nc" id="L71">        List&lt;DocumentDTO&gt; documentDTOList = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L72">        repository.findDocumentProfileByUserID(userID).getPersonalDocuments().forEach(d -&gt; {</span>
+<span class="nc" id="L73">            documentDTOList.add(DocumentDTO</span>
+<span class="nc" id="L74">                            .builder()</span>
+<span class="nc" id="L75">                            .personalDocumentId(d.getPersonalDocumentId())</span>
+<span class="nc" id="L76">                            .path(d.getPath())</span>
+<span class="nc" id="L77">                            .title(d.getTitle())</span>
+<span class="nc" id="L78">                    .build());</span>
+<span class="nc" id="L79">        });</span>
+
+<span class="nc" id="L81">        List&lt;EmergencyContactDTO&gt; emergencyContactDTOList = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L82">        repository.findEmergencyContactProfileByUserID(userID).getContacts().forEach(c -&gt; {</span>
+<span class="nc" id="L83">            emergencyContactDTOList.add(EmergencyContactDTO.builder()</span>
+<span class="nc" id="L84">                            .alternatePhone(c.getAlternatePhone())</span>
+<span class="nc" id="L85">                            .cellPhone(c.getCellPhone())</span>
+<span class="nc" id="L86">                            .email(c.getEmail())</span>
+<span class="nc" id="L87">                            .firstName(c.getFirstName())</span>
+<span class="nc" id="L88">                            .lastName(c.getLastName())</span>
+<span class="nc" id="L89">                            .middleName(c.getMiddleName())</span>
+<span class="nc" id="L90">                            .relationship(c.getRelationship())</span>
+<span class="nc" id="L91">                    .build());</span>
+<span class="nc" id="L92">        });</span>
+
+
+<span class="nc" id="L95">        List&lt;VisaDTO&gt; visaDTOList = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L96">        repository.findVisaProfileByUserID(userID).getVisaStatuses().forEach(v -&gt; {</span>
+<span class="nc" id="L97">            visaDTOList.add(VisaDTO.builder()</span>
+<span class="nc" id="L98">                            .endDate(v.getEndDate())</span>
+<span class="nc" id="L99">                            .startDate(v.getStartDate())</span>
+<span class="nc" id="L100">                            .visaType(v.getVisaType())</span>
+<span class="nc" id="L101">                    .build());</span>
+<span class="nc" id="L102">        });</span>
+
+
+<span class="nc" id="L105">        return ProfileDTO.builder()</span>
+<span class="nc" id="L106">                .name(repository.findNameProfileByUserID(userID))</span>
+<span class="nc" id="L107">                .addresses(addressDTOList)</span>
+<span class="nc" id="L108">                .contactInfo(repository.findContactInfoProfileByUserID(userID))</span>
+<span class="nc" id="L109">                .employment(visaDTOList)</span>
+<span class="nc" id="L110">                .documents(documentDTOList)</span>
+<span class="nc" id="L111">                .emergencyContact(emergencyContactDTOList)</span>
+<span class="nc" id="L112">                .build();</span>
+    }
+
+    public ApplicationDTO findApplicationByUserID(int userID) {
+<span class="nc bnc" id="L116" title="All 2 branches missed.">        if(repository.findEmployeeByUserID(userID) == null) throw new EmployeeNotFoundException(&quot;Employee Not Found. Please provide correct ID&quot;);</span>
+
+<span class="nc" id="L118">        List&lt;DocumentDTO&gt; documentDTOList = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L119">        repository.findDocumentProfileByUserID(userID).getPersonalDocuments().forEach(d -&gt; {</span>
+<span class="nc" id="L120">            documentDTOList.add(DocumentDTO</span>
+<span class="nc" id="L121">                    .builder()</span>
+<span class="nc" id="L122">                    .personalDocumentId(d.getPersonalDocumentId())</span>
+<span class="nc" id="L123">                    .path(d.getPath())</span>
+<span class="nc" id="L124">                    .title(d.getTitle())</span>
+<span class="nc" id="L125">                    .build());</span>
+<span class="nc" id="L126">        });</span>
+
+<span class="nc" id="L128">        return ApplicationDTO.builder()</span>
+<span class="nc" id="L129">                .form(repository.findApplicationFormByUserID(userID))</span>
+<span class="nc" id="L130">                .documents(documentDTOList)</span>
+<span class="nc" id="L131">                .build();</span>
+    }
+
+    public Employee findEmployeeByUserIDOrEmail(int userID, String email) {
+<span class="nc bnc" id="L135" title="All 4 branches missed.">        if(repository.findEmployeeByUserID(userID) == null &amp;&amp; repository.findEmployeeByEmail(email) == null) return null;</span>
+<span class="nc bnc" id="L136" title="All 2 branches missed.">        else if(repository.findEmployeeByEmail(email) != null) return repository.findEmployeeByEmail(email);</span>
+<span class="nc" id="L137">        return repository.findEmployeeByUserID(userID);</span>
+    }
+
+    public Employee findEmployeeByUserID(int userID) {
+<span class="fc bfc" id="L141" title="All 2 branches covered.">        if(repository.findEmployeeByUserID(userID) == null) throw new EmployeeNotFoundException(&quot;Employee Not Found. Please provide correct userID&quot;);</span>
+
+<span class="fc" id="L143">        return repository.findEmployeeByUserID(userID);</span>
+    }
+
+    public void updateProfileName(int userId, ProfileDTO profileDTO) {
+<span class="fc" id="L147">        Employee employee = repository.findEmployeeByUserID(userId);</span>
+<span class="fc bfc" id="L148" title="All 2 branches covered.">        if(employee == null) throw new EmployeeNotFoundException(&quot;Employee Not Found. Please provide correct userID&quot;);</span>
+
+        //update name section
+<span class="fc" id="L151">        NameDTO nameDTO = profileDTO.getName();</span>
+<span class="fc" id="L152">        employee.setFirstName(nameDTO.getFirstName());</span>
+<span class="fc" id="L153">        employee.setLastName(nameDTO.getLastName());</span>
+<span class="fc" id="L154">        employee.setMiddleName(nameDTO.getMiddleName());</span>
+<span class="fc" id="L155">        employee.setPreferedName(nameDTO.getPreferedName());</span>
+<span class="fc" id="L156">        employee.setEmail(nameDTO.getEmail());</span>
+<span class="fc" id="L157">        employee.setSsn(nameDTO.getSsn());</span>
+<span class="fc" id="L158">        employee.setDob(nameDTO.getDob());</span>
+<span class="fc" id="L159">        employee.setGender(nameDTO.getGender());</span>
+
+        //update personal contact
+<span class="fc" id="L162">        PersonalContactDTO personalContactDTO = profileDTO.getContactInfo();</span>
+<span class="fc" id="L163">        employee.setCellPhone(personalContactDTO.getCellPhone());</span>
+<span class="fc" id="L164">        employee.setAlternatePhone(personalContactDTO.getAlternatePhone());</span>
+
+        //update address
+<span class="fc" id="L167">        List&lt;AddressDTO&gt; addressDTOList = profileDTO.getAddresses();</span>
+<span class="fc bfc" id="L168" title="All 2 branches covered.">        for(int i = 0; i &lt; addressDTOList.size(); i++) {</span>
+<span class="fc" id="L169">            AddressDTO tmpDTO = addressDTOList.get(i);</span>
+<span class="fc" id="L170">            employee.getAddresses().get(i).setAddressLine1(tmpDTO.getAddressLine1());</span>
+<span class="fc" id="L171">            employee.getAddresses().get(i).setAddressLine2(tmpDTO.getAddressLine2());</span>
+<span class="fc" id="L172">            employee.getAddresses().get(i).setCity(tmpDTO.getCity());</span>
+<span class="fc" id="L173">            employee.getAddresses().get(i).setState(tmpDTO.getState());</span>
+<span class="fc" id="L174">            employee.getAddresses().get(i).setZipcode(tmpDTO.getZipcode());</span>
+        }
+
+        //update visa
+<span class="fc" id="L178">        List&lt;VisaDTO&gt; visaDTOList = profileDTO.getEmployment();</span>
+<span class="fc bfc" id="L179" title="All 2 branches covered.">        for(int i = 0; i &lt; visaDTOList.size(); i++) {</span>
+<span class="fc" id="L180">            VisaDTO visaDTO = visaDTOList.get(i);</span>
+<span class="fc" id="L181">            employee.getVisaStatuses().get(i).setVisaType(visaDTO.getVisaType());</span>
+<span class="fc" id="L182">            employee.getVisaStatuses().get(i).setStartDate(visaDTO.getStartDate());</span>
+<span class="fc" id="L183">            employee.getVisaStatuses().get(i).setEndDate(visaDTO.getEndDate());</span>
+<span class="fc" id="L184">            employee.getVisaStatuses().get(i).setLastModificationDate(new SimpleDateFormat(&quot;yyyy-MM-dd&quot;).format(new Date()));</span>
+        }
+
+        //update emergency contact
+<span class="fc" id="L188">        List&lt;EmergencyContactDTO&gt; emergencyContactDTOList = profileDTO.getEmergencyContact();</span>
+<span class="fc bfc" id="L189" title="All 2 branches covered.">        for(int i = 0; i &lt; emergencyContactDTOList.size(); i++) {</span>
+<span class="fc" id="L190">            EmergencyContactDTO emergencyContactDTO = profileDTO.getEmergencyContact().get(i);</span>
+<span class="fc" id="L191">            employee.getContacts().get(i).setFirstName(emergencyContactDTO.getFirstName());</span>
+<span class="fc" id="L192">            employee.getContacts().get(i).setLastName(emergencyContactDTO.getLastName());</span>
+<span class="fc" id="L193">            employee.getContacts().get(i).setMiddleName(emergencyContactDTO.getMiddleName());</span>
+<span class="fc" id="L194">            employee.getContacts().get(i).setRelationship(emergencyContactDTO.getRelationship());</span>
+<span class="fc" id="L195">            employee.getContacts().get(i).setEmail(emergencyContactDTO.getEmail());</span>
+<span class="fc" id="L196">            employee.getContacts().get(i).setCellPhone(emergencyContactDTO.getCellPhone());</span>
+<span class="fc" id="L197">            employee.getContacts().get(i).setAlternatePhone(emergencyContactDTO.getAlternatePhone());</span>
+        }
+
+
+<span class="fc" id="L201">        repository.save(employee);</span>
+<span class="fc" id="L202">    }</span>
+
+    public List&lt;RoommateDTO&gt; findRoommatesByEmployeeId(String employeeId) {
+<span class="nc" id="L205">        Employee employee = repository.findEmployeeByEmployeeID(employeeId);</span>
+<span class="nc bnc" id="L206" title="All 2 branches missed.">        if(repository.findEmployeeByEmployeeID(employeeId) == null) throw new EmployeeNotFoundException(&quot;Employee Not Found. Please provide correct id&quot;);</span>
+
+<span class="nc" id="L208">        int houseId = employee.getHouseID();</span>
+
+        //find All Roommate
+<span class="nc" id="L211">        List&lt;RoommateDTO&gt; roommates = repository.findRoommateByHouseIDAndEmployeeIdNot(houseId, employeeId);</span>
+<span class="nc" id="L212">        return roommates;</span>
+    }
+
+    public List&lt;Employee&gt; findResidentsByHouseID(int houseID) {
+<span class="fc" id="L216">        return repository.findResidentsByHouseID(houseID);</span>
+    }
+
+    public List&lt;PersonalDocument&gt; getPersonalDocuments(Integer userID) {
+<span class="nc bnc" id="L220" title="All 2 branches missed.">        if(repository.findEmployeeByUserID(userID) == null) throw new EmployeeNotFoundException(&quot;Employee Not Found. Please provide correct userID&quot;);</span>
+
+<span class="nc" id="L222">        Employee employee = repository.findByUserID(userID);</span>
+<span class="nc" id="L223">        List&lt;PersonalDocument&gt; personalDocuments = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L224">        personalDocuments.addAll(employee.getPersonalDocuments());</span>
+
+<span class="nc" id="L226">        return personalDocuments;</span>
+    }
+
+    public List&lt;EmployeeInfoDTO&gt; findEmployeeInfoByEmployeeIds(List&lt;String&gt; employeeIds) {
+<span class="fc" id="L230">        List&lt;EmployeeInfoDTO&gt; employees = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L231">        employeeIds.forEach(id -&gt; employees.add(repository.findEmployeeInfoByEmployeeId(id)));</span>
+<span class="fc" id="L232">        return employees;</span>
+    }
+
+    public Employee findEmployeeByEmployeeId(String employeeId) {
+<span class="fc bfc" id="L236" title="All 2 branches covered.">        if(repository.findEmployeeByEmployeeID(employeeId) == null) throw new EmployeeNotFoundException(&quot;Employee Not Found. Please provide correct userID&quot;);</span>
+
+<span class="fc" id="L238">        return repository.findEmployeeByEmployeeID(employeeId);</span>
+    }
+
+    public List&lt;EmployeeInfoDTO&gt; findEmployeeInfoByUserIDs(List&lt;Integer&gt; userIDs) {
+<span class="nc" id="L242">        List&lt;EmployeeInfoDTO&gt; employees = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L243">        userIDs.forEach(id -&gt; {</span>
+<span class="nc" id="L244">            EmployeeInfoDTO employee = repository.findEmployeeInfoByUserID(id);</span>
+<span class="nc bnc" id="L245" title="All 2 branches missed.">            if(employee == null) throw new EmployeeNotFoundException(&quot;Employee Not Found. Please provide correct ID&quot;);</span>
+<span class="nc" id="L246">            employees.add(repository.findEmployeeInfoByUserID(id));</span>
+<span class="nc" id="L247">        });</span>
+<span class="nc" id="L248">        return employees;</span>
+    }
+
+    public List&lt;EmployeeSummaryDTO&gt; getAllEmployeeSummaries(int page) {
+<span class="nc" id="L252">        int pageSize = 5;</span>
+<span class="nc" id="L253">        Pageable pageable = PageRequest.of(page, pageSize, Sort.by(&quot;lastName&quot;));</span>
+
+<span class="nc" id="L255">        List&lt;Employee&gt; employees = repository.findAll(pageable).getContent();</span>
+<span class="nc" id="L256">        List&lt;EmployeeSummaryDTO&gt; employeeSummaries = new ArrayList&lt;&gt;();</span>
+
+<span class="nc bnc" id="L258" title="All 2 branches missed.">        for (Employee employee : employees) {</span>
+<span class="nc" id="L259">            EmployeeSummaryDTO employeeSummary = new EmployeeSummaryDTO();</span>
+
+<span class="nc" id="L261">            employeeSummary.setFullName(employee.getFirstName() + &quot; &quot; + employee.getMiddleName() + &quot; &quot; + employee.getLastName());</span>
+<span class="nc" id="L262">            employeeSummary.setSsn(employee.getSsn());</span>
+<span class="nc" id="L263">            employeeSummary.setCellPhone(employee.getCellPhone());</span>
+<span class="nc" id="L264">            employeeSummary.setEmail(employee.getEmail());</span>
+
+<span class="nc" id="L266">            List&lt;VisaStatus&gt; visaStatuses = employee.getVisaStatuses();</span>
+<span class="nc bnc" id="L267" title="All 2 branches missed.">            if (!visaStatuses.isEmpty()) {</span>
+<span class="nc" id="L268">                VisaStatus latestVisaStatus = visaStatuses.get(visaStatuses.size() - 1);</span>
+<span class="nc" id="L269">                employeeSummary.setWorkAythorizationType(latestVisaStatus.getVisaType());</span>
+            }
+
+<span class="nc" id="L272">            employeeSummaries.add(employeeSummary);</span>
+<span class="nc" id="L273">        }</span>
+<span class="nc" id="L274">        return employeeSummaries;</span>
+    }
+
+    public List&lt;EmployeeVisaDTO&gt; getEmployeeByVisaStatus(int page) {
+<span class="nc" id="L278">        int pageSize = 5;</span>
+<span class="nc" id="L279">        Pageable pageable = PageRequest.of(page, pageSize);</span>
+<span class="nc" id="L280">        Page&lt;Employee&gt; employeePage = repository.findAll(pageable);</span>
+
+<span class="nc" id="L282">        List&lt;EmployeeVisaDTO&gt; employeeWithVisaStatusList = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L283" title="All 2 branches missed.">        for (Employee employee : employeePage.getContent()) {</span>
+<span class="nc" id="L284">            EmployeeVisaDTO employeeWithVisaStatus = new EmployeeVisaDTO();</span>
+<span class="nc" id="L285">            employeeWithVisaStatus.setFullName(employee.getFirstName() + &quot; &quot; + employee.getMiddleName() + &quot; &quot; + employee.getLastName());</span>
+<span class="nc" id="L286">            List&lt;VisaStatus&gt; visaStatuses = employee.getVisaStatuses();</span>
+<span class="nc bnc" id="L287" title="All 2 branches missed.">            if (!visaStatuses.isEmpty()) {</span>
+<span class="nc" id="L288">                VisaStatus latestVisaStatus = visaStatuses.get(visaStatuses.size() - 1);</span>
+<span class="nc" id="L289">                LocalDate endDateParsed = null;</span>
+<span class="nc bnc" id="L290" title="All 4 branches missed.">                if (latestVisaStatus.getEndDate() != null &amp;&amp; !latestVisaStatus.getEndDate().isEmpty()) {</span>
+<span class="nc" id="L291">                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(&quot;yyyy-MM-dd&quot;);</span>
+<span class="nc" id="L292">                    endDateParsed = LocalDate.parse(latestVisaStatus.getEndDate(), formatter);</span>
+                }
+<span class="nc bnc" id="L294" title="All 4 branches missed.">                if (endDateParsed == null || endDateParsed.isBefore(LocalDate.now())) {</span>
+<span class="nc" id="L295">                    employeeWithVisaStatus.setWorkAuthorizationType(&quot;No valid visa&quot;);</span>
+<span class="nc" id="L296">                    employeeWithVisaStatus.setDaysLeft(0);</span>
+<span class="nc" id="L297">                    employeeWithVisaStatus.setExpirationDate(&quot;2099-01-01&quot;);</span>
+                } else {
+<span class="nc" id="L299">                    employeeWithVisaStatus.setWorkAuthorizationType(latestVisaStatus.getVisaType());</span>
+<span class="nc" id="L300">                    int daysLeft = (int) ChronoUnit.DAYS.between(LocalDate.now(), endDateParsed);</span>
+<span class="nc" id="L301">                    employeeWithVisaStatus.setDaysLeft(daysLeft);</span>
+<span class="nc" id="L302">                    employeeWithVisaStatus.setExpirationDate(latestVisaStatus.getEndDate());</span>
+                }
+<span class="nc" id="L304">            } else {</span>
+<span class="nc" id="L305">                employeeWithVisaStatus.setWorkAuthorizationType(&quot;Citizen or Greencard holder or no valid visa&quot;);</span>
+<span class="nc" id="L306">                employeeWithVisaStatus.setDaysLeft(999999);</span>
+<span class="nc" id="L307">                employeeWithVisaStatus.setExpirationDate(&quot;2099-01-01&quot;);</span>
+            }
+<span class="nc" id="L309">            employeeWithVisaStatusList.add(employeeWithVisaStatus);</span>
+<span class="nc" id="L310">        }</span>
+<span class="nc" id="L311">        return employeeWithVisaStatusList;</span>
+    }
+
+    public Employee getEmployeeByUsername(String firstName, String lastName) {
+<span class="fc" id="L315">        return repository.findByFirstNameAndLastName(firstName, lastName);</span>
+    }
+
+    public Employee getEmployeeByEmail(String email) {
+<span class="fc" id="L319">        return repository.findByEmail(email);</span>
+    }
+
+    public Employee editEmployee(Employee employee) {
+<span class="nc" id="L323">        Employee emp = repository.findEmployeeByUserID(employee.getUserID());</span>
+<span class="nc bnc" id="L324" title="All 2 branches missed.">        if(emp == null) throw new EmployeeNotFoundException(&quot;Employee not found. Please assign with correct userID&quot;);</span>
+
+<span class="nc" id="L326">        ObjectId id = emp.get_id();</span>
+<span class="nc" id="L327">        String email = emp.getEmail();</span>
+<span class="nc" id="L328">        emp = employee;</span>
+<span class="nc" id="L329">        emp.set_id(id);</span>
+<span class="nc" id="L330">        emp.setEmail(email);</span>
+
+<span class="nc" id="L332">        return repository.save(emp);</span>
+    }
+
+    public PersonalDocument reviewOPTDocument(int userID, String title, String status, String comment) {
+<span class="fc bfc" id="L336" title="All 2 branches covered.">        if(repository.findEmployeeByUserID(userID) == null) throw new EmployeeNotFoundException(&quot;Employee not found. Please assign with correct userID&quot;);</span>
+
+<span class="fc" id="L338">        Employee employee = findEmployeeByUserID(userID);</span>
+<span class="fc" id="L339">        List&lt;PersonalDocument&gt; documents = employee.getPersonalDocuments();</span>
+<span class="fc bfc" id="L340" title="All 2 branches covered.">        for(PersonalDocument doc: documents) {</span>
+<span class="pc bpc" id="L341" title="1 of 2 branches missed.">            if(doc.getTitle().equals(title)) {</span>
+<span class="pc bpc" id="L342" title="1 of 2 branches missed.">                if(!doc.getDocumentStatus().equals(&quot;Pending&quot;)) throw new DocumentNotFoundException(&quot;Update fail. Document has been approved.&quot;);</span>
+<span class="fc" id="L343">                doc.setDocumentStatus(status);</span>
+<span class="fc" id="L344">                doc.setComment(comment);</span>
+<span class="fc" id="L345">                repository.save(employee);</span>
+<span class="fc" id="L346">                return doc;</span>
+            }
+<span class="nc" id="L348">        }</span>
+<span class="fc" id="L349">        throw new DocumentNotFoundException(&quot;Document not found. Please validate document's title.&quot;);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

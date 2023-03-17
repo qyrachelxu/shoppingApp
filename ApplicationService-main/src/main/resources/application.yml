@@ -1,0 +1,61 @@
+database:
+  hibernate:
+    showsql: "true"
+    url: jdbc:mysql://aws-project.c0zvax1hi9xf.us-east-2.rds.amazonaws.com:3306/Project3?user=admin
+    driver: com.mysql.cj.jdbc.Driver
+    username: admin
+    password: 033747sabella
+    dialect: org.hibernate.dialect.MySQLDialect
+
+security:
+  jwt:
+    token:
+      key: JavaTraining
+
+
+spring:
+  application:
+    name: application-service
+  jpa:
+    open-in-view: false
+
+
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+    servlet:
+      path: /application-service
+      multipart:
+        enabled: true
+        file-size-threshold: 1MB
+        max-file-size: 5MB
+        max-request-size: 10MB
+
+
+server:
+  port: 0
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+cloud:
+  aws:
+    credentials:
+      access-key: AKIA5TMU2UTS6443EES7
+      secret-key: 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
+    region:
+      static: us-west-2
+    stack:
+      auto: false
+
+application:
+  bucket:
+    name: group5-project-documents
+
+
